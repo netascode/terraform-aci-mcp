@@ -14,35 +14,64 @@ terraform {
 module "main" {
   source = "../.."
 
-  name        = "ABC"
-  alias       = "ALIAS"
-  description = "DESCR"
+  admin_state         = true
+  per_vlan            = true
+  initial_delay       = 200
+  key                 = "$ECRETKEY1"
+  loop_detection      = 5
+  disable_port_action = true
+  frequency_sec       = 0
+  frequency_msec      = 100
 }
 
-data "aci_rest" "fvTenant" {
-  dn = "uni/tn-ABC"
+data "aci_rest" "mcpInstPol" {
+  dn = "uni/infra/mcpInstP-default"
 
   depends_on = [module.main]
 }
 
-resource "test_assertions" "fvTenant" {
-  component = "fvTenant"
+resource "test_assertions" "mcpInstPol" {
+  component = "mcpInstPol"
 
-  equal "name" {
-    description = "name"
-    got         = data.aci_rest.fvTenant.content.name
-    want        = "ABC"
+  equal "adminSt" {
+    description = "adminSt"
+    got         = data.aci_rest.mcpInstPol.content.adminSt
+    want        = "enabled"
   }
 
-  equal "nameAlias" {
-    description = "nameAlias"
-    got         = data.aci_rest.fvTenant.content.nameAlias
-    want        = "ALIAS"
+  equal "ctrl" {
+    description = "ctrl"
+    got         = data.aci_rest.mcpInstPol.content.ctrl
+    want        = "pdu-per-vlan"
   }
 
-  equal "descr" {
-    description = "descr"
-    got         = data.aci_rest.fvTenant.content.descr
-    want        = "DESCR"
+  equal "initDelayTime" {
+    description = "initDelayTime"
+    got         = data.aci_rest.mcpInstPol.content.initDelayTime
+    want        = "200"
+  }
+
+  equal "loopDetectMult" {
+    description = "loopDetectMult"
+    got         = data.aci_rest.mcpInstPol.content.loopDetectMult
+    want        = "5"
+  }
+
+  equal "loopProtectAct" {
+    description = "loopProtectAct"
+    got         = data.aci_rest.mcpInstPol.content.loopProtectAct
+    want        = "port-disable"
+  }
+
+  equal "txFreq" {
+    description = "txFreq"
+    got         = data.aci_rest.mcpInstPol.content.txFreq
+    want        = "0"
+  }
+
+  equal "txFreqMsec" {
+    description = "txFreqMsec"
+    got         = data.aci_rest.mcpInstPol.content.txFreqMsec
+    want        = "100"
   }
 }

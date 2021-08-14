@@ -1,7 +1,12 @@
-module "aci_scaffolding" {
-  source = "netascode/scaffolding/aci"
+module "aci_mcp" {
+  source = "netascode/mcp/aci"
 
-  name        = "ABC"
-  alias       = "ABC-ALIAS"
-  description = "My Description"
+  admin_state         = true
+  per_vlan            = true
+  initial_delay       = 200
+  key                 = "$ECRETKEY1"
+  loop_detection      = 5
+  disable_port_action = true
+  frequency_sec       = 0
+  frequency_msec      = 100
 }

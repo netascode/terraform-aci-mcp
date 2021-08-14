@@ -1,22 +1,27 @@
 <!-- BEGIN_TF_DOCS -->
-[![Tests](https://github.com/netascode/terraform-aci-scaffolding/actions/workflows/test.yml/badge.svg)](https://github.com/netascode/terraform-aci-scaffolding/actions/workflows/test.yml)
+[![Tests](https://github.com/netascode/terraform-aci-mcp/actions/workflows/test.yml/badge.svg)](https://github.com/netascode/terraform-aci-mcp/actions/workflows/test.yml)
 
-# Terraform ACI Scaffolding Module
+# Terraform ACI MCP Module
 
 Description
 
 Location in GUI:
-`Tenants` » `XXX`
+`Fabric` » `Access Policies` » `Policies` » `Global` » `MCP Instance Policy default`
 
 ## Examples
 
 ```hcl
-module "aci_scaffolding" {
-  source = "netascode/scaffolding/aci"
+module "aci_mcp" {
+  source = "netascode/mcp/aci"
 
-  name        = "ABC"
-  alias       = "ABC-ALIAS"
-  description = "My Description"
+  admin_state         = true
+  per_vlan            = true
+  initial_delay       = 200
+  key                 = "$ECRETKEY1"
+  loop_detection      = 5
+  disable_port_action = true
+  frequency_sec       = 0
+  frequency_msec      = 100
 }
 
 ```
@@ -38,20 +43,24 @@ module "aci_scaffolding" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_name"></a> [name](#input\_name) | Tenant name. | `string` | n/a | yes |
-| <a name="input_alias"></a> [alias](#input\_alias) | Tenant alias. | `string` | `""` | no |
-| <a name="input_description"></a> [description](#input\_description) | Tenant description. | `string` | `""` | no |
+| <a name="input_admin_state"></a> [admin\_state](#input\_admin\_state) | Admin state. | `bool` | `false` | no |
+| <a name="input_per_vlan"></a> [per\_vlan](#input\_per\_vlan) | Per VLAN. | `bool` | `false` | no |
+| <a name="input_initial_delay"></a> [initial\_delay](#input\_initial\_delay) | Initial delay. | `number` | `180` | no |
+| <a name="input_key"></a> [key](#input\_key) | Key. | `string` | `""` | no |
+| <a name="input_loop_detection"></a> [loop\_detection](#input\_loop\_detection) | Loop detection. | `number` | `3` | no |
+| <a name="input_disable_port_action"></a> [disable\_port\_action](#input\_disable\_port\_action) | Disable port action. | `bool` | `true` | no |
+| <a name="input_frequency_sec"></a> [frequency\_sec](#input\_frequency\_sec) | Frequency in seconds. | `number` | `2` | no |
+| <a name="input_frequency_msec"></a> [frequency\_msec](#input\_frequency\_msec) | Frequency in milliseconds. | `number` | `0` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_dn"></a> [dn](#output\_dn) | Distinguished name of `fvTenant` object. |
-| <a name="output_name"></a> [name](#output\_name) | Tenant name. |
+| <a name="output_dn"></a> [dn](#output\_dn) | Distinguished name of `mcpInstPol` object. |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [aci_rest.fvTenant](https://registry.terraform.io/providers/netascode/aci/latest/docs/resources/rest) | resource |
+| [aci_rest.mcpInstPol](https://registry.terraform.io/providers/netascode/aci/latest/docs/resources/rest) | resource |
 <!-- END_TF_DOCS -->

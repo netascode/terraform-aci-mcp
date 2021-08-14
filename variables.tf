@@ -1,31 +1,67 @@
-variable "name" {
-  description = "Tenant name."
-  type        = string
+variable "admin_state" {
+  description = "Admin state."
+  type        = bool
+  default     = false
+}
+
+variable "per_vlan" {
+  description = "Per VLAN."
+  type        = bool
+  default     = false
+}
+
+variable "initial_delay" {
+  description = "Initial delay."
+  type        = number
+  default     = 180
 
   validation {
-    condition     = can(regex("^[a-zA-Z0-9_.-]{0,64}$", var.name))
-    error_message = "Allowed characters: `a`-`z`, `A`-`Z`, `0`-`9`, `_`, `.`, `-`. Maximum characters: 64."
+    condition     = var.initial_delay >= 1 && var.initial_delay <= 1800
+    error_message = "Minimum value: 1. Maximum value: 1800."
   }
 }
 
-variable "alias" {
-  description = "Tenant alias."
+variable "key" {
+  description = "Key."
   type        = string
   default     = ""
+}
+
+variable "loop_detection" {
+  description = "Loop detection."
+  type        = number
+  default     = 3
 
   validation {
-    condition     = can(regex("^[a-zA-Z0-9_.-]{0,64}$", var.alias))
-    error_message = "Allowed characters: `a`-`z`, `A`-`Z`, `0`-`9`, `_`, `.`, `-`. Maximum characters: 64."
+    condition     = var.loop_detection >= 1 && var.loop_detection <= 255
+    error_message = "Minimum value: 1. Maximum value: 255."
   }
 }
 
-variable "description" {
-  description = "Tenant description."
-  type        = string
-  default     = ""
+variable "disable_port_action" {
+  description = "Disable port action."
+  type        = bool
+  default     = true
+}
+
+variable "frequency_sec" {
+  description = "Frequency in seconds."
+  type        = number
+  default     = 2
 
   validation {
-    condition     = can(regex("^[a-zA-Z0-9\\!#$%()*,-./:;@ _{|}~?&+]{0,128}$", var.description))
-    error_message = "Allowed characters: `a`-`z`, `A`-`Z`, `0`-`9`, `\\`, `!`, `#`, `$`, `%`, `(`, `)`, `*`, `,`, `-`, `.`, `/`, `:`, `;`, `@`, ` `, `_`, `{`, `|`, }`, `~`, `?`, `&`, `+`. Maximum characters: 128."
+    condition     = var.frequency_sec >= 0 && var.frequency_sec <= 300
+    error_message = "Minimum value: 0. Maximum value: 300."
+  }
+}
+
+variable "frequency_msec" {
+  description = "Frequency in milliseconds."
+  type        = number
+  default     = 0
+
+  validation {
+    condition     = var.frequency_msec >= 0 && var.frequency_msec <= 999
+    error_message = "Minimum value: 0. Maximum value: 999."
   }
 }
