@@ -12,7 +12,8 @@ Location in GUI:
 
 ```hcl
 module "aci_mcp" {
-  source = "netascode/mcp/aci"
+  source  = "netascode/mcp/aci"
+  version = ">= 0.0.1"
 
   admin_state         = true
   per_vlan            = true
