@@ -14,7 +14,7 @@ Note that this example will create resources. Resources can be destroyed with `t
 ```hcl
 module "aci_mcp" {
   source  = "netascode/mcp/aci"
-  version = ">= 0.0.1"
+  version = ">= 0.1.0"
 
   admin_state         = true
   per_vlan            = true
@@ -25,6 +25,5 @@ module "aci_mcp" {
   frequency_sec       = 0
   frequency_msec      = 100
 }
-
 ```
 <!-- END_TF_DOCS -->

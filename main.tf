@@ -1,4 +1,4 @@
-resource "aci_rest" "mcpInstPol" {
+resource "aci_rest_managed" "mcpInstPol" {
   dn         = "uni/infra/mcpInstP-default"
   class_name = "mcpInstPol"
   content = {
