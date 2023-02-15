@@ -25,6 +25,7 @@ variable "key" {
   description = "Key."
   type        = string
   default     = ""
+  sensitive   = true
 }
 
 variable "loop_detection" {
